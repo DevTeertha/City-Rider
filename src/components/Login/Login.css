@@ -1,0 +1,9 @@
+.social-btn{
+    font-size: 1.3em;
+    border: 1px solid gray;
+    border-radius: 10em;
+    -webkit-border-radius: 10em;
+    -moz-border-radius: 10em;
+    -ms-border-radius: 10em;
+    -o-border-radius: 10em;
+}

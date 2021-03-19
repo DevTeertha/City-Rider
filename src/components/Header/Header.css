@@ -1,0 +1,40 @@
+.header-container{
+    display: flex;
+    padding: 1em 0;
+}
+.logo{
+    width: 40%;
+}
+.nav{
+    margin-left: 3em;
+    width: 60%;
+}
+.logo a{
+    font-size: 1.5em;
+    font-weight: 600;
+    color: rgb(29, 29, 29);
+}
+.logo a:hover{
+    text-decoration: none;
+}
+.nav a{
+    padding: 0.4em 1em;
+    color: rgb(54, 54, 54);
+    margin: 0.5em 0.6em;
+    border-radius: 1em;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    -ms-border-radius: 1em;
+    -o-border-radius: 1em;
+}
+.login-link:hover{
+    background-color: transparent;
+}
+button.login-btn{
+    background-color: tomato;
+    color: white;
+    padding: 0.1em 1.5em;
+}
+.color-tomato{
+    color: tomato;
+}

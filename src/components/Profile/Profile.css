@@ -1,0 +1,14 @@
+.main-container{
+    grid-gap: 3em;
+}
+.pick-form , .pick-map{
+    border-radius: 0.7em;
+    -webkit-border-radius: 0.7em;
+    -moz-border-radius: 0.7em;
+    -ms-border-radius: 0.7em;
+    -o-border-radius: 0.7em;
+}
+.pick-form{
+    padding: 1.5em 1em;
+    background-color: rgba(175, 175, 175, 0.287);
+}

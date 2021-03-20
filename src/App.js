@@ -61,7 +61,7 @@ function App() {
           </PrivateRoute>
 
           <PrivateRoute path='/destination'>
-            <Profile></Profile>
+            <Profile ></Profile>
           </PrivateRoute>
 
         </Switch>

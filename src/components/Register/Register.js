@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import { contextAPI } from '../../App';
 import { googleSignIn, createAccount } from '../Firebase/FirebaseLoginRegister';
 import firebase from "firebase/app";
+import profileImage from '../../images/peopleicon.png';
 
 const Register = () => {
     const [error, setError] = useState({
@@ -59,6 +60,7 @@ const Register = () => {
                         isSignedIn: true,
                         name: user.name,
                         email: email,
+                        img: profileImage,
                         error: ''
                     }
                     setUser(createdUser);

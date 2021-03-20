@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { contextAPI } from '../../App';
 import { googleSignIn, emailSignIn } from '../Firebase/FirebaseLoginRegister';
-
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const Login = () => {
     const [user, setUser] = useContext(contextAPI);
@@ -43,18 +44,34 @@ const Login = () => {
                 const signedIn = {
                     isSignedIn: true,
                     name: displayName,
-                    email: email
+                    email: email,
+                    errorLogin: ''
                 }
                 setUser(signedIn);
+                console.log(res.user);
                 history.replace(from);
             })
             .catch(err => {
-                const errorMessage = err.message;
                 const newUserInfo = { ...user }
-                newUserInfo.error = errorMessage;
+                newUserInfo.errorLogin = 'Incorrect Password or Email';
                 setUser(newUserInfo);
             })
         e.preventDefault();
+    }
+
+    const resetPassword = () => {
+        alert('clicked');
+        const auth = firebase.auth();
+        const emailAddress = user.email;
+
+        auth.sendPasswordResetEmail(emailAddress).then(function () {
+            // Email Sent
+        })
+        .then(res=>console.log(res))
+        .catch(function (error) {
+            // An error happened.
+        });
+
     }
 
 
@@ -65,6 +82,7 @@ const Login = () => {
                 <div className="login-box border p-4 rounded">
                     <h2>Login</h2>
                     <Form className="mt-4">
+                        <p style={{ textAlign: 'center', color: 'red' }}>{user.errorLogin}</p>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control onBlur={onBlurHandler} type="email" name="email" placeholder="Enter email" />
@@ -74,6 +92,10 @@ const Login = () => {
                             <Form.Label>Password</Form.Label>
                             <Form.Control onBlur={onBlurHandler} type="password" name="password" placeholder="Password" />
                         </Form.Group>
+                        <Form.Group controlId="formBasicPassword">
+                            <Link onClick={resetPassword} className="text-danger" path='/reset-password'>Forget Password</Link>
+                        </Form.Group>
+
                         <br />
                         <button onClick={signInUser} className="w-100 btn py-2 btn-danger" type="submit">Login</button>
                         <br />

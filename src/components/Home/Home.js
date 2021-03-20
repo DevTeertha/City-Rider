@@ -13,10 +13,10 @@ const Home = () => {
     return (
         <div className="home-container">
             <div className="container">
-                <Header></Header>
+                <Header key="header"></Header>
                 <div className="cardRow row position-relative">
                     {rider.map(ride => 
-                        <Link to={`/destination/${ride.rideName}`} className="card col-lg-2 col-sm-12">
+                        <Link key={rider.key} to={`/destination/${ride.rideName}`} className="card col-lg-2 col-sm-12">
                             <Card.Img className="p-4" variant="top" src={ride.img} />
                             <Card.Body>
                                 <Card.Title className="text-center"> <Link className="text-danger" to={`/${ride.rideName}`}> <strong>{ride.rideName}</strong> </Link> </Card.Title>

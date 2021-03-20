@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Profile.css'
 import { useParams } from "react-router-dom";
 import data from '../../FakeData/FakeData';
@@ -9,13 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 const Profile = () => {
+    const [from, setFrom] = useState([]);
+    const [to, setTo] = useState([]);
     const [pick, setPick] = useState({
         from: '',
         to: ''
     });
-    console.log(pick);
     const [btn, setBtn] = useState(true)
-
     const { riderName } = useParams();
 
     let rider;
@@ -27,19 +27,35 @@ const Profile = () => {
         rider = data.find(dt => dt.rideName === 'CAR');
     }
 
-    const search = "bangladesh";
-    const KEY = "IzU2Y04djRpUVpagLh1d";
-    const URL = `https://api.maptiler.com/geocoding/[${search}].json?key=${KEY}`;
-
     const blurHandler = (e) => {
         const newPick = { ...pick }
         newPick[e.target.name] = e.target.value;
         setPick(newPick);
     }
 
+    const FROM = pick.from ? pick.from : 'dhaka';
+    const TO = pick.to ? pick.to : 'dhaka';
+    const KEY = "IzU2Y04djRpUVpagLh1d";
+    const URL_FROM = `https://api.maptiler.com/geocoding/[${FROM}].json?key=${KEY}`;
+    const URL_TO = `https://api.maptiler.com/geocoding/[${TO}].json?key=${KEY}`;
+    console.log(FROM, TO);
+
+    useEffect(() => {
+        fetch(URL_FROM)
+            .then(res => res.json())
+            .then(data => setFrom(data.features[0].geometry.coordinates))
+            .catch(err => console.log(err))
+
+        fetch(URL_TO)
+            .then(res => res.json())
+            .then(data => setTo(data.features[0].geometry.coordinates))
+            .catch(err => console.log(err))
+    }, []);
+
     const searchHandler = (e) => {
         setBtn(false);
-        console.log(btn);
+        console.log('from ', from);
+        console.log('To ', to)
         e.preventDefault();
     }
 
@@ -77,7 +93,7 @@ const Profile = () => {
                                     <div className="card-details">
                                         <img src={rider.img} alt="" />
                                         <strong>{rider.rideName}</strong>
-                                        <strong><FontAwesomeIcon icon={faUserFriends}/>{rider.person}</strong>
+                                        <strong><FontAwesomeIcon icon={faUserFriends} />{rider.person}</strong>
                                         <strong>{rider.price}</strong>
                                     </div>
                                 </div>
@@ -85,7 +101,7 @@ const Profile = () => {
                                     <div className="card-details">
                                         <img src={rider.img} alt="" />
                                         <strong>{rider.rideName}</strong>
-                                        <strong><FontAwesomeIcon icon={faUserFriends}/>{rider.person}</strong>
+                                        <strong><FontAwesomeIcon icon={faUserFriends} />{rider.person}</strong>
                                         <strong>{rider.price}</strong>
                                     </div>
                                 </div>
@@ -93,7 +109,7 @@ const Profile = () => {
                                     <div className="card-details">
                                         <img src={rider.img} alt="" />
                                         <strong>{rider.rideName}</strong>
-                                        <strong><FontAwesomeIcon icon={faUserFriends}/>{rider.person}</strong>
+                                        <strong><FontAwesomeIcon icon={faUserFriends} />{rider.person}</strong>
                                         <strong>{rider.price}</strong>
                                     </div>
                                 </div>
@@ -102,7 +118,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="col-lg-7 col-sm-12">
-                    <MyMap></MyMap>
+                    <MyMap to={to} from={from} key="map"></MyMap>
                 </div>
             </div>
         </div>

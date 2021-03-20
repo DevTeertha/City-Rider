@@ -38,8 +38,17 @@ button.login-btn{
     color: white;
     padding: 0.1em 1.5em;
 }
-.color-tomato{
-    color: tomato;
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 @media screen and (max-width: 991px){

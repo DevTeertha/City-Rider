@@ -16,7 +16,7 @@ const Home = () => {
                 <Header></Header>
                 <div className="cardRow row position-relative">
                     {rider.map(ride => 
-                        <Link to={`/${ride.rideName}`} className="card col mx-2" style={{ width: '18rem' }}>
+                        <Link to={`/destination/${ride.rideName}`} className="card col-lg-2 col-sm-12">
                             <Card.Img className="p-4" variant="top" src={ride.img} />
                             <Card.Body>
                                 <Card.Title className="text-center"> <Link to={`/${ride.rideName}`}> {ride.rideName} </Link> </Card.Title>

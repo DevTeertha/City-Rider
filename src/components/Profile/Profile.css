@@ -12,3 +12,27 @@
     padding: 1.5em 1em;
     background-color: rgba(175, 175, 175, 0.287);
 }
+.from-to{
+    padding: 1em;
+    color: white;
+    border-radius: 0.5em;
+    background-color: tomato;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    -ms-border-radius: 0.5em;
+    -o-border-radius: 0.5em;
+}
+.card{
+    padding: 0.8em;
+    margin-top: 1.5em;
+}
+.card-details{
+    padding: 0.5em;
+}
+.card-details img{
+    width: 20%;
+}
+.card-details strong{
+    font-size: 1.1em;
+    margin: 1em;
+}

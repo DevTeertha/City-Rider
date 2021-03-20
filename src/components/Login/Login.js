@@ -1,15 +1,62 @@
-import React , { useContext } from 'react';
+import React, { useContext } from 'react';
 import Header from '../Header/Header';
 import { Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import './Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { contextAPI } from '../../App';
+import { googleSignIn, emailSignIn } from '../Firebase/FirebaseLoginRegister';
 
-const Login = (props) => {
-    // const [user , setUser] = useContext(contextAPI);
-    const signInGoogle = props.signInGoogle;
+
+const Login = () => {
+    const [user, setUser] = useContext(contextAPI);
+    let history = useHistory();
+    let location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
+    const onBlurHandler = (e) => {
+        const newUser = { ...user }
+        newUser[e.target.name] = e.target.value;
+        setUser(newUser);
+    }
+
+    const signInGoogle = () => {
+        googleSignIn()
+            .then(res => {
+                const { displayName, email, photoURL } = res;
+                const signedIn = {
+                    isSignedIn: true,
+                    name: displayName,
+                    email: email,
+                    img: photoURL
+                }
+                setUser(signedIn);
+                history.replace(from);
+            });
+    }
+
+    const signInUser = (e) => {
+        emailSignIn(user.email, user.password)
+            .then(res => {
+                const { displayName, email } = res.user;
+                const signedIn = {
+                    isSignedIn: true,
+                    name: displayName,
+                    email: email
+                }
+                setUser(signedIn);
+                history.replace(from);
+            })
+            .catch(err => {
+                const errorMessage = err.message;
+                const newUserInfo = { ...user }
+                newUserInfo.error = errorMessage;
+                setUser(newUserInfo);
+            })
+        e.preventDefault();
+    }
+
 
     return (
         <div className="container">
@@ -20,20 +67,18 @@ const Login = (props) => {
                     <Form className="mt-4">
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Control onBlur={onBlurHandler} type="email" name="email" placeholder="Enter email" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control onBlur={onBlurHandler} type="password" name="password" placeholder="Password" />
                         </Form.Group>
                         <br />
-                        <button className="w-100 btn login-btn py-2" type="submit">
-                            Submit
-                        </button>
+                        <button onClick={signInUser} className="w-100 btn login-btn py-2" type="submit">Login</button>
                         <br />
                         <br />
-                        <p className="text-center">Don't have an account? 
+                        <p className="text-center">Don't have an account?
                         <Link className="color-tomato" to="/register">Create an account</Link>
                         </p>
                     </Form>

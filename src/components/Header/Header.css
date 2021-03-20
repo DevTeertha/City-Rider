@@ -1,31 +1,31 @@
-.header-container{
+.nav-container{
+    padding: 2em 0;
     display: flex;
-    padding: 1em 0;
 }
-.logo{
-    width: 40%;
-}
-.nav{
-    margin-left: 3em;
-    width: 60%;
+.nav-container .logo{
+    width: 30%;
 }
 .logo a{
-    font-size: 1.5em;
-    font-weight: 600;
-    color: rgb(29, 29, 29);
+    font-size: 1.8em;
+    color: rgb(46, 46, 46);
 }
 .logo a:hover{
     text-decoration: none;
 }
-.nav a{
-    padding: 0.4em 1em;
-    color: rgb(54, 54, 54);
-    margin: 0.5em 0.6em;
-    border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
-    -ms-border-radius: 1em;
-    -o-border-radius: 1em;
+.nav-container .nav-menu{
+    width: 70%;
+}
+.nav-menu{
+    text-align: center;
+    margin: 0;
+}
+.nav-menu li{
+    margin: 0 0.3em;
+    display: inline-block;
+}
+.nav-link{
+    color: rgb(34, 34, 34);
+    font-size: 1.2em;
 }
 .login-link:hover{
     background-color: transparent;

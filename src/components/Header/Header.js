@@ -2,31 +2,32 @@ import React, { useContext } from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
 import { contextAPI } from '../../App';
+import { Nav } from 'react-bootstrap';
 
 const Header = () => {
     const [user, setUser] = useContext(contextAPI);
-    const {isSignedIn , name , email , img} = user;
+    const { isSignedIn, name, email, img } = user;
 
     return (
-        <div className='header-container'>
+        <nav className="nav-container">
             <div className="logo">
-                <a href="/">City Riders</a>
+                <a href="/"><strong>City Riders</strong></a>
             </div>
-            <nav className="nav">
-                <Link to="/">Home</Link>
-                <a href="/destination">Destination</a>
-                <a href="/blog">Blog</a>
-                <a href="/contact">Contact</a>
-                {
+            <ul className="nav-menu">
+                <li><Link className="nav-link" to="/">Home</Link></li>
+                <li><Link className="nav-link" to="/destination">Destination</Link></li>
+                <li><Link className="nav-link" to="/">Blog</Link></li>
+                <li><Link className="nav-link" to="/">Contact</Link></li>
+                <li>{
                     isSignedIn ?
-                        <a href=""><strong> {name} </strong></a>
+                        <Link className="nav-link" to='/'><strong> {name} </strong></Link>
                         :
-                        <Link className="login-link" to="/login">
+                        <Link className="login-link nav-link" to="/login">
                             <button className="btn login-btn">Login</button>
                         </Link>
-                }
-            </nav>
-        </div>
+                }</li>
+            </ul>
+        </nav>
     );
 };
 

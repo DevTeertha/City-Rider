@@ -12,33 +12,35 @@ import Profile from './components/Profile/Profile';
 import { useState, createContext } from 'react';
 import Register from './components/Register/Register';
 import { googleSignIn } from './components/Firebase/FirebaseLoginRegister';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 export const contextAPI = createContext();
 
 function App() {
-  const [user , setUser] = useState({
+  const [user, setUser] = useState({
     isSignedIn: false,
-    name:'',
+    name: '',
     email: '',
+    password: '',
     img: ''
   })
 
   const signInGoogle = () => {
     googleSignIn()
-    .then(res => {
-      const { displayName, email, photoURL } = res;
-      const signedIn = {
-        isSignedIn: true,
-        name: displayName,
-        email: email,
-        img: photoURL
-      }
-      setUser(signedIn);
-    });
+      .then(res => {
+        const { displayName, email, photoURL } = res;
+        const signedIn = {
+          isSignedIn: true,
+          name: displayName,
+          email: email,
+          img: photoURL
+        }
+        setUser(signedIn);
+      });
   }
 
   return (
-    <contextAPI.Provider value={[user , setUser]}>
+    <contextAPI.Provider value={[user, setUser]}>
       <Router>
         <Switch>
 
@@ -54,9 +56,13 @@ function App() {
             <Register signInGoogle={signInGoogle}></Register>
           </Route>
 
-          <Route path='/:riderName'>
+          <PrivateRoute path='/destination/:riderName'>
             <Profile></Profile>
-          </Route>
+          </PrivateRoute>
+
+          <PrivateRoute path='/destination'>
+            <Profile></Profile>
+          </PrivateRoute>
 
         </Switch>
       </Router>

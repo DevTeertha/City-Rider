@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './config';
 
-if(firebase.apps.length===0){
+if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
 }
 
@@ -11,13 +11,23 @@ export const googleSignIn = () => {
     return firebase.auth()
         .signInWithPopup(googleProvider)
         .then((result) => {
-            var credential = result.credential;
-            var token = credential.accessToken;
-            var user = result.user;
+            const user = result.user;
             return user;
         }).catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
+            const errorMessage = error.message;
             return errorMessage;
         });
+}
+
+export const emailSignIn = (email, password) => {
+    return firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(res => res)
+        .catch(err => err)
+}
+
+export const createAccount = (email, password) => {
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(res => res)
+        .catch(error => error);
 }

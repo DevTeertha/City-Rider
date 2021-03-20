@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Profile.css'
 import { useParams } from "react-router-dom";
 import data from '../../FakeData/FakeData';
@@ -9,8 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 const Profile = () => {
-    const [from, setFrom] = useState([]);
-    const [to, setTo] = useState([]);
     const [pick, setPick] = useState({
         from: '',
         to: ''
@@ -33,29 +31,8 @@ const Profile = () => {
         setPick(newPick);
     }
 
-    const FROM = pick.from ? pick.from : 'dhaka';
-    const TO = pick.to ? pick.to : 'dhaka';
-    const KEY = "IzU2Y04djRpUVpagLh1d";
-    const URL_FROM = `https://api.maptiler.com/geocoding/[${FROM}].json?key=${KEY}`;
-    const URL_TO = `https://api.maptiler.com/geocoding/[${TO}].json?key=${KEY}`;
-    console.log(FROM, TO);
-
-    useEffect(() => {
-        fetch(URL_FROM)
-            .then(res => res.json())
-            .then(data => setFrom(data.features[0].geometry.coordinates))
-            .catch(err => console.log(err))
-
-        fetch(URL_TO)
-            .then(res => res.json())
-            .then(data => setTo(data.features[0].geometry.coordinates))
-            .catch(err => console.log(err))
-    }, []);
-
     const searchHandler = (e) => {
         setBtn(false);
-        console.log('from ', from);
-        console.log('To ', to)
         e.preventDefault();
     }
 
@@ -118,7 +95,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="col-lg-7 col-sm-12">
-                    <MyMap to={to} from={from} key="map"></MyMap>
+                    <MyMap></MyMap>
                 </div>
             </div>
         </div>

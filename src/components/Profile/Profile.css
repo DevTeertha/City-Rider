@@ -22,6 +22,9 @@
     -ms-border-radius: 0.5em;
     -o-border-radius: 0.5em;
 }
+.from-to h2{
+    margin: 0.8em 0.4em;
+}
 .card{
     padding: 0.8em;
     margin-top: 1.5em;
@@ -35,4 +38,10 @@
 .card-details strong{
     font-size: 1.1em;
     margin: 1em;
+}
+
+@media screen and (max-width: 361px){
+    .card-details strong{
+        margin: 0.4em;
+    }
 }

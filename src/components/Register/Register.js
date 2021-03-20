@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import './Resgister.css';
 import { Form } from 'react-bootstrap';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -91,7 +92,7 @@ const Register = () => {
     return (
         <div className="container">
             <Header></Header>
-            <div className="login-container w-50 mx-auto mt-5">
+            <div className="login-container mx-auto mt-5">
                 <div className="login-box border p-4 rounded">
                     <h2>Create an account</h2>
                     <Form className="mt-4">
@@ -115,16 +116,16 @@ const Register = () => {
                             <Form.Control required onBlur={checkFormValid} type="password" name="confirmPassword" placeholder="Confirm Password" />
                         </Form.Group>
                         <br />
-                        <button onClick={submitHandler} className="w-100 btn login-btn py-2" type="submit">Create an account</button>
+                        <button onClick={submitHandler} className="w-100 btn btn-danger py-2" type="submit">Create an account</button>
                         <br />
                         <br />
-                        <p className="text-center">Already have an account? <Link className="color-tomato" to="/login">Login</Link> </p>
+                        <p className="text-center">Already have an account?<Link className="text-danger" to="/login"> Login</Link> </p>
                     </Form>
                     <p style={errorStyle}>{user.error}</p>
                 </div>
                 <div className="social-media text-center p-4">
                     <p>Or</p>
-                    <button onClick={signInGoogle} className="btn btn-outline-dark p-2 w-100 border social-btn"><FontAwesomeIcon icon={faGoogle} /> Continue With Google</button>
+                    <button onClick={signInGoogle} className="btn btn-outline-success p-2 w-100 border social-btn"><FontAwesomeIcon icon={faGoogle} /> Continue With Google</button>
                 </div>
             </div>
         </div>

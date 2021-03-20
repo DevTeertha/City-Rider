@@ -1,18 +1,13 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
   Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation
+  Redirect
 } from "react-router-dom";
 import { contextAPI } from "../../App";
 
 function PrivateRoute({ children, ...rest }) {
-    const [user, setUser] = useContext(contextAPI);
-    const { isSignedIn, email } = user;
+    const [user] = useContext(contextAPI);
+    const { email } = user;
     return (
       <Route
         {...rest}

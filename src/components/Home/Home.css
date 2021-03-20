@@ -19,3 +19,9 @@
     -ms-border-radius: 0.6em;
     -o-border-radius: 0.6em;
 }
+
+@media screen and (max-width: 991px){
+    .cardRow{
+        margin: 1.3em 0;
+    }
+}

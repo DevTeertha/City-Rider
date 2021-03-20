@@ -19,7 +19,7 @@ const Home = () => {
                         <Link to={`/destination/${ride.rideName}`} className="card col-lg-2 col-sm-12">
                             <Card.Img className="p-4" variant="top" src={ride.img} />
                             <Card.Body>
-                                <Card.Title className="text-center"> <Link to={`/${ride.rideName}`}> {ride.rideName} </Link> </Card.Title>
+                                <Card.Title className="text-center"> <Link className="text-danger" to={`/${ride.rideName}`}> <strong>{ride.rideName}</strong> </Link> </Card.Title>
                             </Card.Body>
                         </Link>
                     )}

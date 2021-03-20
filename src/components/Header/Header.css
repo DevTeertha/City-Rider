@@ -27,6 +27,9 @@
     color: rgb(34, 34, 34);
     font-size: 1.2em;
 }
+.nav-link:hover{
+    color: red;
+}
 .login-link:hover{
     background-color: transparent;
 }
@@ -37,4 +40,30 @@ button.login-btn{
 }
 .color-tomato{
     color: tomato;
+}
+
+@media screen and (max-width: 991px){
+    .nav-container{
+        padding: 2em;
+        display: block;
+    }
+    .logo{
+        padding: 1em 0;
+    }
+    .nav-container .logo{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1em;
+    }
+    .nav-container .nav-menu{
+        width: 100%;
+    }
+    .nav-menu{
+        padding: 1em;
+    }
+    .nav-menu li{
+        margin: 1em 0;
+        padding: 1em;
+        display: block;
+    }
 }

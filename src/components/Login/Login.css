@@ -1,3 +1,6 @@
+.login-container{
+    width: 50%;
+}
 .social-btn{
     font-size: 1.3em;
     border: 1px solid gray;
@@ -6,4 +9,9 @@
     -moz-border-radius: 10em;
     -ms-border-radius: 10em;
     -o-border-radius: 10em;
+}
+@media screen and (max-width: 991px){
+    .login-container{
+        width: 100%;
+    }
 }

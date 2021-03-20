@@ -64,14 +64,14 @@ const Profile = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="pick-to">
-                                    <button onClick={searchHandler} className="btn w-100 login-btn py-2 mt-4">Search</button>
+                                    <button onClick={searchHandler} className="btn btn-danger w-100 py-2 mt-4">Search</button>
                                 </Form.Group>
                             </Form>
                             :
                             <div className="pick-result">
-                                <div className="from-to">
-                                    <h2> {pick.from} </h2>
-                                    <h2> {pick.to} </h2>
+                                <div className="from-to bg-danger">
+                                    <h2>{pick.from}</h2>
+                                    <h2>{pick.to}</h2>
                                 </div>
                                 <div className="card">
                                     <div className="card-details">

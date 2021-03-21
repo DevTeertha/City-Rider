@@ -10,3 +10,5 @@
 ![alt text](https://i.ibb.co/df2tncg/image.png)
 5. private route
 6. Using fake api
+7. Form Validation
+8. Login Error

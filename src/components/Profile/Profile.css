@@ -36,12 +36,12 @@
     width: 20%;
 }
 .card-details strong{
-    font-size: 1.1em;
-    margin: 1em;
+    font-size: 1.2em;
+    margin: 0.3em;
 }
 
 @media screen and (max-width: 361px){
     .card-details strong{
-        margin: 0.4em;
+        margin: 0.1em;
     }
 }

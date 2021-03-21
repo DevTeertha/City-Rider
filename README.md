@@ -8,3 +8,5 @@
 3. Forget Password by email
 4. Sign Out with profile pop up
 ![alt text](https://i.ibb.co/df2tncg/image.png)
+5. private route
+6. Using fake api

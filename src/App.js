@@ -11,7 +11,6 @@ import Login from './components/Login/Login';
 import Profile from './components/Profile/Profile';
 import { useState, createContext } from 'react';
 import Register from './components/Register/Register';
-import { googleSignIn } from './components/Firebase/FirebaseLoginRegister';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 export const contextAPI = createContext();
@@ -25,19 +24,19 @@ function App() {
     img: ''
   })
 
-  const signInGoogle = () => {
-    googleSignIn()
-      .then(res => {
-        const { displayName, email, photoURL } = res;
-        const signedIn = {
-          isSignedIn: true,
-          name: displayName,
-          email: email,
-          img: photoURL
-        }
-        setUser(signedIn);
-      });
-  }
+  // const signInGoogle = () => {
+  //   googleSignIn()
+  //     .then(res => {
+  //       const { displayName, email, photoURL } = res;
+  //       const signedIn = {
+  //         isSignedIn: true,
+  //         name: displayName,
+  //         email: email,
+  //         img: photoURL
+  //       }
+  //       setUser(signedIn);
+  //     });
+  // }
 
   return (
     <contextAPI.Provider value={[user, setUser]}>
@@ -49,11 +48,11 @@ function App() {
           </Route>
 
           <Route path='/login'>
-            <Login signInGoogle={signInGoogle}></Login>
+            <Login></Login>
           </Route>
 
           <Route path='/register'>
-            <Register signInGoogle={signInGoogle}></Register>
+            <Register></Register>
           </Route>
 
           <PrivateRoute path='/destination/:riderName'>

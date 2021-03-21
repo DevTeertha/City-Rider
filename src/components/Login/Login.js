@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Header from '../Header/Header';
 import { Form } from 'react-bootstrap';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -8,10 +8,12 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { contextAPI } from '../../App';
 import { googleSignIn, emailSignIn } from '../Firebase/FirebaseLoginRegister';
 import firebase from "firebase/app";
-import "firebase/auth";
 
 const Login = () => {
     const [user, setUser] = useContext(contextAPI);
+    const [msg , setMsg] = useState({
+        forgetPassword: ''
+    });
     let history = useHistory();
     let location = useLocation();
     let { from } = location.state || { from: { pathname: "/" } };
@@ -40,37 +42,30 @@ const Login = () => {
     const signInUser = (e) => {
         emailSignIn(user.email, user.password)
             .then(res => {
-                const { displayName, email } = res.user;
-                const signedIn = {
-                    isSignedIn: true,
-                    name: displayName,
-                    email: email,
-                    errorLogin: ''
-                }
-                setUser(signedIn);
-                console.log(res.user);
+                setUser(res);
                 history.replace(from);
             })
-            .catch(err => {
-                const newUserInfo = { ...user }
-                newUserInfo.errorLogin = 'Incorrect Password or Email';
-                setUser(newUserInfo);
-            })
+            .catch(error => {
+                setMsg({forgetPassword: ''});
+                setUser(error);
+            });
         e.preventDefault();
     }
 
     const resetPassword = () => {
-        alert('clicked');
         const auth = firebase.auth();
         const emailAddress = user.email;
 
         auth.sendPasswordResetEmail(emailAddress).then(function () {
-            // Email Sent
+            const newMsg = {...msg};
+            const forgetPasswordMsg = 'Email Has Been Sent Please Check Your Email: '+emailAddress;
+            newMsg.forgetPassword = forgetPasswordMsg;
+            setMsg(newMsg);
         })
-        .then(res=>console.log(res))
-        .catch(function (error) {
-            // An error happened.
-        });
+            .then(res => console.log(res))
+            .catch(function (error) {
+                // An error happened.
+            });
 
     }
 
@@ -83,6 +78,7 @@ const Login = () => {
                     <h2>Login</h2>
                     <Form className="mt-4">
                         <p style={{ textAlign: 'center', color: 'red' }}>{user.errorLogin}</p>
+                        <p className="text-success text-center">{msg.forgetPassword}</p>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control onBlur={onBlurHandler} type="email" name="email" placeholder="Enter email" />

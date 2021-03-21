@@ -7,15 +7,21 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import Header from '../Header/Header';
 import { contextAPI } from '../../App';
 import { googleSignIn, createAccount } from '../Firebase/FirebaseLoginRegister';
-import firebase from "firebase/app";
 import profileImage from '../../images/peopleicon.png';
+import firebase from "firebase/app";
 
 const Register = () => {
     const [error, setError] = useState({
-        message: ''
+        emailError: '',
+        passwordError: '',
+        confirmPasswordError: '',
+        createAccountError: '',
+        loginError: ''
     })
+    const { emailError, passwordError, confirmPasswordError, createAccountError } = error;
 
     const [user, setUser] = useContext(contextAPI);
+    console.log(user);
     const history = useHistory();
     const location = useLocation();
     let { from } = location.state || { from: { pathname: "/" } };
@@ -35,50 +41,87 @@ const Register = () => {
             });
     }
 
+    const setUserEvent = (name, value, valid) => {
+        if (valid) {
+            const newUser = { ...user };
+            newUser[name] = value;
+            setUser(newUser);
+        }
+        else {
+            const newError = { ...error };
+            if (name === 'email') {
+                newError.emailError = " is not valid";
+                setError(newError);
+            }
+            if (name === 'password') {
+                newError.passwordError = " must be 6 character";
+                setError(newError);
+            }
+            if (name === 'confirmPassword') {
+                newError.confirmPasswordError = " is not matched with password";
+                setError(newError);
+            }
+        }
+    }
+
     const checkFormValid = (e) => {
         let isFormValid = true;
+        const newError = { ...error };
 
-        if (e.target.name === 'email') {
-            isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
-        }
-        if (e.target.name === 'password') {
-            isFormValid = e.target.value.length > 6;
-        }
-        if (isFormValid) {
+        if (e.target.name === 'name') {
             const newUser = { ...user };
             newUser[e.target.name] = e.target.value;
             setUser(newUser);
         }
+
+        if (e.target.name === 'email') {
+            isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
+            newError.emailError = '';
+            setError(newError);
+            setUserEvent(e.target.name, e.target.value, isFormValid);
+        }
+        if (e.target.name === 'password') {
+            isFormValid = e.target.value.length >= 6;
+            newError.passwordError = '';
+            setError(newError);
+            setUserEvent(e.target.name, e.target.value, isFormValid);
+        }
+        if (e.target.name === 'confirmPassword') {
+            isFormValid = user.password === e.target.value;
+            newError.confirmPasswordError = '';
+            setError(newError);
+            setUserEvent(e.target.name, e.target.value, isFormValid);
+        }
     }
 
+    // Direct Authentication
     const submitHandler = (e) => {
         if (user.email && user.password) {
-            createAccount(user.email, user.password)
-                .then(res => {
-                    const { email } = res.user;
-                    const createdUser = {
-                        isSignedIn: true,
-                        name: user.name,
-                        email: email,
-                        img: profileImage,
-                        error: ''
-                    }
-                    setUser(createdUser);
-                    history.replace(from);
+            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+                .then((res) => {
+                    const newError = {...error}
+                    newError.createAccountError = '';
+                    setError(newError);
+
                     updateUserName(user.name);
+                    const {displayName , email} = res.user;
+                    const createUser = {...user}
+                    createUser.isSignedIn = true;
+                    createUser.img = profileImage;
+                    setUser(createUser);
+                    history.replace('/destination');
                 })
-                .catch(error => {
+                .catch((error) => {
                     const errorMessage = error.message;
-                    const newUserInfo = { ...user }
-                    newUserInfo.error = errorMessage;
-                    setUser(newUserInfo);
-                })
+                    const newError = {...error}
+                    newError.createAccountError = errorMessage;
+                    setError(newError);
+                });
         }
         e.preventDefault();
     }
     const updateUserName = name => {
         const user = firebase.auth().currentUser;
-
         user.updateProfile({
             displayName: name
         }).then(function () {
@@ -86,7 +129,6 @@ const Register = () => {
         }).catch(function (error) {
             console.log(error)
         });
-
     }
 
     const errorStyle = { color: 'red', textAlign: 'center' };
@@ -104,17 +146,17 @@ const Register = () => {
                         </Form.Group>
 
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{error.message}</small>
+                            <Form.Label>Email</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{emailError}</small>
                             <Form.Control required onBlur={checkFormValid} type="email" name="email" placeholder="Enter email" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{error.message}</small>
+                            <Form.Label>Password</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{passwordError}</small>
                             <Form.Control required onBlur={checkFormValid} type="password" name="password" placeholder="Password" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Confirm Password</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{error.message}</small>
+                            <Form.Label>Confirm Password</Form.Label>  <small style={{ color: 'red', textAlign: 'center' }}>{confirmPasswordError}</small>
                             <Form.Control required onBlur={checkFormValid} type="password" name="confirmPassword" placeholder="Confirm Password" />
                         </Form.Group>
                         <br />
@@ -123,7 +165,7 @@ const Register = () => {
                         <br />
                         <p className="text-center">Already have an account?<Link className="text-danger" to="/login"> Login</Link> </p>
                     </Form>
-                    <p style={errorStyle}>{user.error}</p>
+                    <p style={errorStyle}>{createAccountError}</p>
                 </div>
                 <div className="social-media text-center p-4">
                     <p>Or</p>
